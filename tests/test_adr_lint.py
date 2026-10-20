@@ -15,6 +15,10 @@ GOOD = """# ADR 1: Example
 - **Status:** Accepted
 - **Review date:** 2025-11-28
 
+## Alternatives considered
+
+Keep the current setup and improve it, or adopt the new platform.
+
 ## Evidence
 
 We measured checkout P95 before and after over a 30-day window.
@@ -52,6 +56,10 @@ class LintTextTests(unittest.TestCase):
     def test_missing_evidence(self):
         text = GOOD.replace("## Evidence", "## Notes")
         self.assertIn("missing 'Evidence' section", adr_lint.lint_text(text))
+
+    def test_missing_alternatives(self):
+        text = GOOD.replace("## Alternatives considered", "## Other")
+        self.assertIn("missing 'Alternatives considered' section", adr_lint.lint_text(text))
 
     def test_missing_exit_criteria(self):
         text = GOOD.replace("## Exit criteria", "## Other")

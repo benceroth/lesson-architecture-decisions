@@ -15,11 +15,30 @@ No paid service, no build step, standard library only.
 ```
 python tools/adr_lint.py adr                   # all five ADRs pass
 python tools/adr_lint.py tests/fixtures        # the deliberately bad sample fails (exit code 1)
+python break-it/run.py                         # trend-driven ADRs rejected, fixed ones accepted
 python -m unittest discover -s tests -v        # linter + metrics consistency tests
 node --test tests/tco.test.js                  # calculator logic + CSV parity + page checks
 ```
 
-Open [`calculator/web/index.html`](calculator/web/index.html) in a browser for the calculator (once GitHub Pages is enabled it is published by `pages.yml`).
+Use the [live calculator](https://benceroth.github.io/lesson-architecture-decisions/), or open [`calculator/web/index.html`](calculator/web/index.html) locally (published by `pages.yml`).
+
+## Worked calculator example
+
+The three presets with the documented defaults (illustrative assumptions, not measurements). Regenerate with `node tools/tco_example.js`.
+
+| State | Services | Components | Infra / month | Operating hours / month | Complexity budget used |
+|---|---|---|---|---|---|
+| Before | 1 | 0 | $18,000 | 30.7 | 13.1% (within) |
+| Nine months later | 11 | 4 | $47,000 | 255.9 | 109.4% (over) |
+| After 60-day review | 8 | 3 | $29,000 | 162.3 | 69.3% (within) |
+
+The budget is 10% of 18 engineers x 130 productive hours = 234 hours a month. Formulas: [docs/tco-formula.md](docs/tco-formula.md).
+
+## Extend it
+
+1. Add an `hourlyRate` scenario to [`tools/tco_example.js`](tools/tco_example.js) and compare the dollar total with the bill alone.
+2. Teach [`tools/adr_lint.py`](tools/adr_lint.py) to require a measurable **Expiry condition**, and add a failing sample to [`break-it/bad/`](break-it/bad/).
+3. Write an ADR from [`templates/`](templates/) for a technology your team is considering, pair it with a [decision exit plan](templates/decision-exit-plan.md), and run the linter.
 
 ## What is in here
 
@@ -30,6 +49,8 @@ Open [`calculator/web/index.html`](calculator/web/index.html) in a browser for t
 | [`calculator/`](calculator/) | [`tco-model.csv`](calculator/tco-model.csv), formulas in [`docs/tco-formula.md`](docs/tco-formula.md), and the static [web page](calculator/web/index.html) |
 | [`scorecards/`](scorecards/) | [Radar lite](scorecards/technology-radar-lite.md) and [before/after metrics](scorecards/before-after-metrics.csv) |
 | [`questions/`](questions/ten-questions-before-adopting.md) | Ten questions before adopting |
+| [`templates/`](templates/) | Sample ADRs to copy and a [decision exit plan](templates/decision-exit-plan.md) |
+| [`break-it/`](break-it/) | Three trend-driven ADRs the linter rejects, with corrected versions |
 | [`tools/adr_lint.py`](tools/adr_lint.py) | ADR linter |
 | [`docs/`](docs/) | [How to fill an ADR](docs/how-to-fill-an-adr.md), [reading metrics](docs/reading-metrics.md), [fork as starter](docs/fork-as-starter.md) |
 
@@ -47,7 +68,7 @@ Illustrative metrics (before / nine months later / after 60-day review): deploym
 
 ## The linter
 
-`tools/adr_lint.py` fails an ADR that lacks a valid **Status**, a **Review date** (`YYYY-MM-DD`), a non-empty **Evidence** section, or a non-empty **Exit criteria** section. Unfilled placeholders (`<...>`, `TODO`, `TBD`) also fail. CI runs it on `adr/` and asserts that it rejects the bad sample in `tests/fixtures/`. This makes the lesson enforceable: no exit criterion, no merge.
+`tools/adr_lint.py` fails an ADR that lacks a valid **Status**, a **Review date** (`YYYY-MM-DD`), a non-empty **Alternatives considered**, **Evidence** or **Exit criteria** section. Unfilled placeholders (`<...>`, `TODO`, `TBD`) also fail. CI runs it on `adr/` and asserts that it rejects the bad sample in `tests/fixtures/`. This makes the lesson enforceable: no exit criterion, no merge.
 
 ## Known limits
 
@@ -67,7 +88,13 @@ Illustrative metrics (before / nine months later / after 60-day review): deploym
 - [Martin Fowler: Monolith First](https://martinfowler.com/bliki/MonolithFirst.html)
 - [DORA](https://dora.dev/)
 
-Related companion repos (plans 07 and 09): [`lesson-monolith-strangler`](https://github.com/benceroth/lesson-monolith-strangler) and [`lesson-year-two-diagnostics`](https://github.com/benceroth/lesson-year-two-diagnostics).
+### Where to go next
+
+| Repo | What it covers |
+|---|---|
+| [lesson-monolith-strangler](https://github.com/benceroth/lesson-monolith-strangler) | Moving off a monolith step by step instead of a rewrite |
+| [lesson-year-two-diagnostics](https://github.com/benceroth/lesson-year-two-diagnostics) | Finding what a platform really costs in its second year |
+| [lesson-bicep-modules](https://github.com/benceroth/lesson-bicep-modules) | Reusable infrastructure modules, so platform choices stay swappable |
 
 ## License
 

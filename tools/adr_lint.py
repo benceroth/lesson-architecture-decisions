@@ -4,6 +4,7 @@
 An ADR fails when it lacks any of:
   * a valid Status
   * a Review date (YYYY-MM-DD)
+  * a non-empty "Alternatives considered" section
   * a non-empty "Evidence" section
   * a non-empty "Exit criteria" section
 
@@ -32,7 +33,7 @@ VALID_STATUSES = (
     "removed",
     "partially reversed",
 )
-REQUIRED_SECTIONS = ("evidence", "exit criteria")
+REQUIRED_SECTIONS = ("alternatives considered", "evidence", "exit criteria")
 MIN_SECTION_CHARS = 30
 SKIPPED_FILES = {"template.md", "readme.md"}
 
