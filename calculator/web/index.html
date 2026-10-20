@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RelayCart TCO and complexity budget calculator</title>
+  <meta name="description" content="A thinking aid for counting the whole cost of a technology. Illustrative RelayCart defaults; not a prediction.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#results">Skip to results</a>
+  <header>
+    <h1>Count the whole cost: TCO and complexity budget</h1>
+    <p>
+      A thinking aid from the RelayCart example in <em>The Hidden Cost of Trend-Driven Architecture</em>.
+      It is <strong>not a prediction</strong>. The RelayCart numbers are <strong>illustrative</strong>:
+      the post's figures (18 engineers, 1 / 11 / 8 services, $18,000 / $47,000 / $29,000 a month) are preset,
+      and every other input is an assumption you should replace with your own data.
+    </p>
+  </header>
+
+  <main>
+    <noscript><p class="warn">This calculator needs JavaScript. The same formulas are in <code>calculator/tco-model.csv</code> and <code>docs/tco-formula.md</code>.</p></noscript>
+
+    <section aria-labelledby="preset-h">
+      <h2 id="preset-h">Start from a scenario</h2>
+      <div class="presets" role="group" aria-labelledby="preset-h">
+        <button type="button" data-preset="before">Before (modular monolith)</button>
+        <button type="button" data-preset="nineMonths" aria-pressed="true">Nine months later (11 services)</button>
+        <button type="button" data-preset="afterReview">After 60-day review (8 services)</button>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section aria-labelledby="inputs-h">
+        <h2 id="inputs-h">Inputs (monthly unless stated)</h2>
+        <form id="inputs" onsubmit="return false" autocomplete="off"></form>
+      </section>
+
+      <section id="results" aria-labelledby="results-h" tabindex="-1">
+        <h2 id="results-h">Results</h2>
+        <div id="live" aria-live="polite" aria-atomic="true" class="summary"></div>
+        <label for="meter">Complexity budget used</label>
+        <meter id="meter" min="0" max="150" low="80" high="100" optimum="40" value="0"></meter>
+        <table>
+          <caption>Monthly cost breakdown</caption>
+          <thead><tr><th scope="col">Item</th><th scope="col">Value</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <section aria-labelledby="notes-h">
+      <h2 id="notes-h">How to read this</h2>
+      <ul>
+        <li><strong>Execution</strong> is the infrastructure and vendor bill. <strong>Operations</strong>, <strong>cognitive load</strong> and <strong>exit</strong> are shown in hours, because turning every hour into dollars can imply more precision than the estimate deserves. Add an hourly rate only if you want a dollar figure.</li>
+        <li>The <strong>complexity budget</strong> compares those hours with the share of team capacity you are willing to spend keeping the platform running. The default (10%) is an assumption.</li>
+        <li>Use it to compare options and start a conversation, then check the result against real measures such as deployment frequency, MTTR and pages per platform.</li>
+        <li>Formulas: <code>docs/tco-formula.md</code>. Data: <code>calculator/tco-model.csv</code>.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><p>MIT licensed. Fictional company, illustrative numbers. No data leaves your browser.</p></footer>
+
+  <script src="tco.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

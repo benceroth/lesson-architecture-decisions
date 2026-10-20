@@ -1,0 +1,8 @@
+metric,unit,before,nine_months_later,after_60_day_review,label
+engineers,count,18,18,18,illustrative (from the post)
+deployed_services,count,1,11,8,illustrative (from the post)
+traffic_vs_before,percent,0,35,35,illustrative (from the post; after review RelayCart still supports 35% more traffic)
+deployments_per_week,count,14,6,12,illustrative (from the post)
+mttr_minutes,minutes,24,71,31,illustrative (from the post)
+checkout_p95_ms,ms,410,640,430,illustrative (from the post)
+monthly_infra_usd,USD,18000,47000,29000,illustrative (from the post)
